@@ -50,3 +50,25 @@ function putStoriesOnPage() {
 
   $allStoriesList.show();
 }
+
+/**Get data from new story form submission, pass through the addStory function
+ * to create a new instance of Story, and invokes putStoriesOnPage function to
+ * update HTML.
+ */
+async function getStorySubmissionAndCreate(e) {
+  //prevent default
+  e.preventDefault();
+
+  //pull data from form, constants for name title url
+  let authorInput = $("#authorInput").val();
+  let titleInput = $("#titleInput").val();
+  let urlInput = $("#urlInput").val();
+
+  //call addStory
+  let newStory = await storyList.addStory(currentUser, {
+    title: titleInput, author: authorInput, url: urlInput
+  });
+  putStoriesOnPage(newStory);
+}
+
+$(".new-story-form").on("submit", getStorySubmissionAndCreate);
