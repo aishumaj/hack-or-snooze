@@ -25,7 +25,8 @@ class Story {
 
   getHostName() {
     // UNIMPLEMENTED: complete this function!
-    return "hostname.com";
+    //TODO:
+    //return "hostname.com";
   }
 }
 
@@ -79,6 +80,7 @@ class StoryList {
       { token: currentUserToken, story: { title, author, url } });
     const createdStory = new Story(newStoryResponse.data.story);
     this.stories.unshift(createdStory);
+    User.ownStories.unshift(createdStory);
     return createdStory;
   }
 }

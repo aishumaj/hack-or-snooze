@@ -6,6 +6,8 @@
 
 /** Show main list of all stories when click site name */
 
+const $storyForm = $('.new-story-form')
+
 function navAllStories(evt) {
   console.debug("navAllStories", evt);
   evt.preventDefault();
@@ -40,8 +42,11 @@ function updateNavOnLogin() {
 /**Show the form to submit a new story when the navigation button submit is
  * clicked */
 
-function showSubmitStoryFormOnClick(evt){
-  $(".new-story-form").show();
+
+//naming consistant
+function showSubmitStoryFormOnClick(evt) {
+  $storyForm.slideToggle();
+  //hide and show
 }
 
 $("#nav-submit").on("click", showSubmitStoryFormOnClick);

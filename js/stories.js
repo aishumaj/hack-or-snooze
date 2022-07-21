@@ -60,15 +60,16 @@ async function getStorySubmissionAndCreate(e) {
   e.preventDefault();
 
   //pull data from form, constants for name title url
-  let authorInput = $("#authorInput").val();
-  let titleInput = $("#titleInput").val();
-  let urlInput = $("#urlInput").val();
+  const authorInput = $("#authorInput").val();
+  const titleInput = $("#titleInput").val();
+  const urlInput = $("#urlInput").val();
 
   //call addStory
   let newStory = await storyList.addStory(currentUser, {
     title: titleInput, author: authorInput, url: urlInput
   });
-  putStoriesOnPage(newStory);
+
+  $allStoriesList.prepend(generateStoryMarkup(newStory));
 }
 
-$(".new-story-form").on("submit", getStorySubmissionAndCreate);
+$storyForm.on("submit", getStorySubmissionAndCreate);
