@@ -200,11 +200,26 @@ class User {
     }
   }
 
-  //favorite method
-  //currentUser.loginToken
-  async addFavoriteStory(story){
-    const favoritedStory = await axios.post(`${BASE_URL}/users/${this.username}/favorites/${story.storyId}`);
-    //userToken
+  /**When user favorites an instance of a Story from the storyList, this takes in
+   * the instance as a parameter and adds the story into the user's favorites list.
+  */
+  async addFavoriteStory(story) {
+    const token = this.loginToken;
+    const favoritedStory = await axios.post(
+      `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
+      { token });
+    this.favorites.unshift(favoritedStory);
   }
-  //unfavorite method
+
+  /**When user removes a favorited story, this passes through the instance of
+   * the removed favorite and updates the list of favorite stories.
+  */
+  async removeFavoriteStory(story) {
+    const token = this.loginToken;
+    const deletedFavorite = await axios.delete(
+      `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
+      { data: {token} });
+    const storyIndex = this.favorites.indexOf(deletedFavorite);
+    this.favorites.splice(storyIndex, 1);
+  }
 }
