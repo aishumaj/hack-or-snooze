@@ -199,4 +199,12 @@ class User {
       return null;
     }
   }
+
+  //favorite method
+  //currentUser.loginToken
+  async addFavoriteStory(story){
+    const favoritedStory = await axios.post(`${BASE_URL}/users/${this.username}/favorites/${story.storyId}`);
+    //userToken
+  }
+  //unfavorite method
 }
