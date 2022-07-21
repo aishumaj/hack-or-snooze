@@ -73,11 +73,17 @@ class StoryList {
    * Returns the new Story instance
    */
 
-  async addStory( /* user, newStory */) {
+  async addStory(user, { title, author, url }) {
     // UNIMPLEMENTED: complete this function!
+    const currentUserToken = user.loginToken;
+    const newStoryResponse = await axios.post(`${BASE_URL}/stories`,
+      { token: currentUserToken, story: { title, author, url } });
+    const createdStory = new Story(newStoryResponse.data.story);
+    this.stories.unshift(createdStory);
+    return createdStory;
   }
 }
-
+//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImVmd2Vmd2VvaWZuIiwiaWF0IjoxNjU4NDI3NTI5fQ.X2gRLjKWrWbUnKRjajL53XnLdY1SE6zAF6DtjmQF4F4
 
 /******************************************************************************
  * User: a user in the system (only used to represent the current user)
@@ -90,13 +96,13 @@ class User {
    */
 
   constructor({
-                username,
-                name,
-                createdAt,
-                favorites = [],
-                ownStories = []
-              },
-              token) {
+    username,
+    name,
+    createdAt,
+    favorites = [],
+    ownStories = []
+  },
+    token) {
     this.username = username;
     this.name = name;
     this.createdAt = createdAt;
