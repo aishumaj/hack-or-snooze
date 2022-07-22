@@ -28,6 +28,14 @@ class Story {
     //TODO:
     //return "hostname.com";
   }
+
+
+  /**Given a storyID, returns full story object */
+  static async getStoryFromId(storyId){
+    //const storyId = this.storyId;
+    const story = await axios.get(`${BASE_URL}/stories/${storyId}`);
+    return story;
+  }
 }
 
 
@@ -208,7 +216,8 @@ class User {
     const favoritedStory = await axios.post(
       `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
       { token });
-    this.favorites.unshift(favoritedStory);
+    const storyObj = favoritedStory.data.user.favorites;
+    this.favorites.unshift({"story": storyObj[storyObj.length-1]});
   }
 
   /**When user removes a favorited story, this passes through the instance of

@@ -86,7 +86,7 @@ function generateFavoritesMarkup() {
   //  const hostName = fav.getHostName();
     let createdFav = $(`
     <li id="${fav.storyId}">
-      <i class="bi bi-star"></i>
+      <i class="bi bi-star-fill"></i>
       <a href="${fav.url}" target="a_blank" class="story-link">
         ${fav.title}
       </a>
@@ -101,18 +101,21 @@ function generateFavoritesMarkup() {
 
 //TODO:
 async function toggleFavoriteStatus(evt){
-  //$("i").toggleClass("bi-star bi-star-fill")
   const pressedIcon = $(evt.target);
+
+  //variables to return story object from storyID stored in parentlist element
   const storyID = pressedIcon.closest("li").attr("id");
-  console.log(storyID);
-  console.log(pressedIcon);
-  const story = await Story.getStory(storyID);
+  const story = await Story.getStoryFromId(storyID);
+  console.log(storyID, story);
+
+  //switch style of icon when clicked and invoke respective add/removal function
+  //to favorites list
   if(pressedIcon.attr("class") === "bi bi-star"){
     pressedIcon.attr("class", "bi bi-star-fill");
-    //await addFavoriteStory(story);
+    await currentUser.addFavoriteStory(story.data.story);
   } else {
     pressedIcon.attr("class", "bi bi-star");
-    //await removeFavoriteStory(story);
+    await currentUser.removeFavoriteStory(story.data.story);
   }
 }
 
