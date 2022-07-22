@@ -20,18 +20,20 @@ async function getAndShowStoriesOnStart() {
  */
 
 function generateStoryMarkup(story) {
-  // console.debug("generateStoryMarkup", story);
-  //if currentuser.favorites.includes(story), li class = bi bi-star-fill
-  //const indexOf = storyList.indexOf(story);
+
+  //default star icon as empty on page refresh and update to fill if
+  //storyID is in curretUser.favorites
   let starClass = 'bi-star';
   let favorites = currentUser.favorites;
-  for (let favorite of favorites){
-    //starClass = story.storyId === favorite.storyId ? 'bi-star-fill': 'bi-star';
-    if(story.storyId === favorite.storyId){
-      starClass = 'bi-star-fill'
+  for (let favorite of favorites) {
+
+    if (story.storyId === favorite.storyId) {
+      starClass = 'bi-star-fill';
     }
+
   }
   const hostName = story.getHostName();
+
   return $(`
       <li id="${story.storyId}">
         <i class="bi ${starClass}"></i>
@@ -92,7 +94,7 @@ function generateFavoritesMarkup() {
   const favorites = currentUser.favorites;
 
   for (let fav of favorites) {
-    const hostName =  fav.getHostName();
+    const hostName = fav.getHostName;
     let createdFav = $(`
     <li id="${fav.storyId}">
       <i class="bi bi-star-fill"></i>
@@ -104,22 +106,23 @@ function generateFavoritesMarkup() {
       <small class="story-user">posted by ${fav.username}</small>
     </li>
   `);
-  $favStoriesList.append(createdFav);
+    $favStoriesList.append(createdFav);
   }
 }
 
-//TODO:
-async function toggleFavoriteStatus(evt){
+/** Toggles favorite star icon, takes click event, checks closest li id, and
+ *  calls getStoryFromId function to get story object from ID
+ */
+async function toggleFavoriteStatus(evt) {
   const pressedIcon = $(evt.target);
 
   //variables to return story object from storyID stored in parentlist element
   const storyID = pressedIcon.closest("li").attr("id");
   const story = await Story.getStoryFromId(storyID);
-  console.log(storyID, story);
 
   //switch style of icon when clicked and invoke respective add/removal function
   //to favorites list
-  if(pressedIcon.attr("class") === "bi bi-star"){
+  if (pressedIcon.attr("class") === "bi bi-star") {
     pressedIcon.attr("class", "bi bi-star-fill");
     await currentUser.addFavoriteStory(story.data.story);
   } else {
@@ -128,4 +131,4 @@ async function toggleFavoriteStatus(evt){
   }
 }
 
-$(".stories-container").on("click", "i", toggleFavoriteStatus)
+$(".stories-container").on("click", "i", toggleFavoriteStatus);

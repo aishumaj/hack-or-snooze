@@ -24,15 +24,13 @@ class Story {
   /** Parses hostname out of URL and returns it. */
 
   getHostName() {
-    // UNIMPLEMENTED: complete this function!
-    //TODO:
-    const urlInformation = new URL (this.url);
+    const urlInformation = new URL(this.url);
     return urlInformation.hostname;
   }
 
 
   /**Given a storyID, returns full story object */
-  static async getStoryFromId(storyId){
+  static async getStoryFromId(storyId) {
     //const storyId = this.storyId;
     const story = await axios.get(`${BASE_URL}/stories/${storyId}`);
     return story;
@@ -227,7 +225,7 @@ class User {
     const token = this.loginToken;
     const deletedFavorite = await axios.delete(
       `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
-      { data: {token} });
+      { data: { token } });
     const storyIndex = this.favorites.indexOf(deletedFavorite);
     this.favorites.splice(storyIndex, 1);
   }

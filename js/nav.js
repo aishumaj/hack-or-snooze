@@ -55,6 +55,7 @@ function navShowFavoritesOnClick(evt) {
   $allStoriesList.hide();
   generateFavoritesMarkup();
   $favStoriesList.show();
+  $storyForm.hide();
 }
 
 $('#nav-favorites').on('click', navShowFavoritesOnClick);
