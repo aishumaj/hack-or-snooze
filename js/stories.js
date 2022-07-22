@@ -21,11 +21,20 @@ async function getAndShowStoriesOnStart() {
 
 function generateStoryMarkup(story) {
   // console.debug("generateStoryMarkup", story);
-
+  //if currentuser.favorites.includes(story), li class = bi bi-star-fill
+  //const indexOf = storyList.indexOf(story);
+  let starClass = 'bi-star';
+  let favorites = currentUser.favorites;
+  for (let favorite of favorites){
+    //starClass = story.storyId === favorite.storyId ? 'bi-star-fill': 'bi-star';
+    if(story.storyId === favorite.storyId){
+      starClass = 'bi-star-fill'
+    }
+  }
   const hostName = story.getHostName();
   return $(`
       <li id="${story.storyId}">
-        <i class="bi bi-star"></i>
+        <i class="bi ${starClass}"></i>
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
@@ -83,14 +92,14 @@ function generateFavoritesMarkup() {
   const favorites = currentUser.favorites;
 
   for (let fav of favorites) {
-  //  const hostName = fav.getHostName();
+    const hostName =  fav.getHostName();
     let createdFav = $(`
     <li id="${fav.storyId}">
       <i class="bi bi-star-fill"></i>
       <a href="${fav.url}" target="a_blank" class="story-link">
         ${fav.title}
       </a>
-
+      <small class="story-hostname">(${hostName})</small>
       <small class="story-author">by ${fav.author}</small>
       <small class="story-user">posted by ${fav.username}</small>
     </li>
