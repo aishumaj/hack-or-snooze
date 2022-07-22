@@ -119,4 +119,4 @@ async function toggleFavoriteStatus(evt){
   }
 }
 
-$allStoriesList.on("click", "i", toggleFavoriteStatus);
+$(".stories-container").on("click", "i", toggleFavoriteStatus)

@@ -213,11 +213,10 @@ class User {
   */
   async addFavoriteStory(story) {
     const token = this.loginToken;
-    const favoritedStory = await axios.post(
+    await axios.post(
       `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
       { token });
-    const storyObj = favoritedStory.data.user.favorites;
-    this.favorites.unshift({"story": storyObj[storyObj.length-1]});
+    this.favorites.unshift(story);
   }
 
   /**When user removes a favorited story, this passes through the instance of
