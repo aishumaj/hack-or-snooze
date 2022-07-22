@@ -25,6 +25,7 @@ function generateStoryMarkup(story) {
   const hostName = story.getHostName();
   return $(`
       <li id="${story.storyId}">
+        <i class="bi bi-star"></i>
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
@@ -56,10 +57,9 @@ function putStoriesOnPage() {
  * update HTML.
  */
 async function getStorySubmissionAndCreate(e) {
-  //prevent default
   e.preventDefault();
 
-  //pull data from form, constants for name title url
+  //pull data from form
   const authorInput = $("#authorInput").val();
   const titleInput = $("#titleInput").val();
   const urlInput = $("#urlInput").val();
@@ -73,3 +73,47 @@ async function getStorySubmissionAndCreate(e) {
 }
 
 $storyForm.on("submit", getStorySubmissionAndCreate);
+
+/**  A render method to render HTML for an individual Story instance that has
+ * been added to a user's favorited stories list. Returns the markup for the
+ * story and adds it to the HTML of the page for display.
+ */
+function generateFavoritesMarkup() {
+
+  const favorites = currentUser.favorites;
+
+  for (let fav of favorites) {
+  //  const hostName = fav.getHostName();
+    let createdFav = $(`
+    <li id="${fav.storyId}">
+      <i class="bi bi-star"></i>
+      <a href="${fav.url}" target="a_blank" class="story-link">
+        ${fav.title}
+      </a>
+
+      <small class="story-author">by ${fav.author}</small>
+      <small class="story-user">posted by ${fav.username}</small>
+    </li>
+  `);
+  $favStoriesList.append(createdFav);
+  }
+}
+
+//TODO:
+async function toggleFavoriteStatus(evt){
+  //$("i").toggleClass("bi-star bi-star-fill")
+  const pressedIcon = $(evt.target);
+  const storyID = pressedIcon.closest("li").attr("id");
+  console.log(storyID);
+  console.log(pressedIcon);
+  const story = await Story.getStory(storyID);
+  if(pressedIcon.attr("class") === "bi bi-star"){
+    pressedIcon.attr("class", "bi bi-star-fill");
+    //await addFavoriteStory(story);
+  } else {
+    pressedIcon.attr("class", "bi bi-star");
+    //await removeFavoriteStory(story);
+  }
+}
+
+$allStoriesList.on("click", "i", toggleFavoriteStatus);
