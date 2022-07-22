@@ -32,8 +32,10 @@ class Story {
   /**Given a storyID, returns full story object */
   static async getStoryFromId(storyId) {
     //const storyId = this.storyId;
-    const story = await axios.get(`${BASE_URL}/stories/${storyId}`);
+    const fetchStory = await axios.get(`${BASE_URL}/stories/${storyId}`);
+    const story = new Story(fetchStory.data.story);
     return story;
+
   }
 }
 
@@ -211,6 +213,7 @@ class User {
    * the instance as a parameter and adds the story into the user's favorites list.
   */
   async addFavoriteStory(story) {
+    console.log('story is', story);
     const token = this.loginToken;
     await axios.post(
       `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
@@ -228,5 +231,6 @@ class User {
       { data: { token } });
     const storyIndex = this.favorites.indexOf(deletedFavorite);
     this.favorites.splice(storyIndex, 1);
+    //can filter
   }
 }

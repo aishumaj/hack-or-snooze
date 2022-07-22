@@ -26,7 +26,8 @@ function generateStoryMarkup(story) {
   let starClass = 'bi-star';
   let favorites = currentUser.favorites;
   for (let favorite of favorites) {
-
+    //if givenstory is in currentuser.fav,
+    //currentuser.fav.some(st => st.storyId === story.storyId)
     if (story.storyId === favorite.storyId) {
       starClass = 'bi-star-fill';
     }
@@ -94,7 +95,7 @@ function generateFavoritesMarkup() {
   const favorites = currentUser.favorites;
 
   for (let fav of favorites) {
-    const hostName = fav.getHostName;
+    const hostName = fav.getHostName();
     let createdFav = $(`
     <li id="${fav.storyId}">
       <i class="bi bi-star-fill"></i>
@@ -124,10 +125,10 @@ async function toggleFavoriteStatus(evt) {
   //to favorites list
   if (pressedIcon.attr("class") === "bi bi-star") {
     pressedIcon.attr("class", "bi bi-star-fill");
-    await currentUser.addFavoriteStory(story.data.story);
+    await currentUser.addFavoriteStory(story);
   } else {
     pressedIcon.attr("class", "bi bi-star");
-    await currentUser.removeFavoriteStory(story.data.story);
+    await currentUser.removeFavoriteStory(story);
   }
 }
 
